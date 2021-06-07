@@ -1,0 +1,25 @@
+# Windows + Linux dependencies
+numpy>=1.18.5
+scipy>=1.4.1
+Cython
+
+#albumentations
+opencv-python>=4.5.1
+
+# Mask R-CNN tf2 dependencies
+tensorflow-gpu>=2.3
+imageio>=2.9.0
+imagecodecs
+matplotlib
+scikit-image>=0.18.1
+ipython
+
+# CycleGAN dependencies
+torch>=1.8.1
+torchvision>=0.9.1
+dominate
+
+
+# Temporary
+#pydantic==1.7.3
+#tqdm
