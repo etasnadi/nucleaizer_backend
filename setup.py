@@ -11,6 +11,10 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
 requirements = []
+import os
+cont = os.listdir('.')
+print(os.getcwd())
+print('Contents:', cont)
 with open('requirements.txt') as f:
     for line in f:
         stripped = line.split("#")[0].strip()
@@ -55,6 +59,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/etasnadi/nucleaizer_backend',
-    version='0.1.5',
+    version='0.1.9',
     zip_safe=False,
 )
