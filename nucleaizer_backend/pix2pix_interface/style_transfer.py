@@ -24,20 +24,28 @@ class StyleTransfer:
     P2P_FINAl_OUTPUT_REL_DIR = 'out'
 
     def __init__(self, work_dir):
+        '''
+        The style transfer working directory for the actual group (split) of clusters:
+        $KAGGLE_WORKFLOW/
+            styleLearnInput/
+                $SPLIT
+        '''
         self.work_dir = work_dir
 
-    '''
-    Directory structure:
-
-    p2ptrain/
-        $CLUS_ID/
-            train/
-                img...
-
-    The $CLUS_ID is the style.
-
-    '''
     def learn_styles(self, n_iter=1000, gpu_ids='0', display_id=0):
+        '''
+        Directory structure:
+        Input:
+        p2ptrain/
+            $CLUS_ID/
+                train/
+                    training images in [training microscopy image | training mask] format
+
+        Output:
+        p2pmodels/
+            $CLUS_ID/
+                trained models
+        '''
 
         styles_train_dir = os.path.join(self.work_dir, self.P2P_TRAIN_REL_DIR)
         models_dir = os.path.join(self.work_dir, self.P2P_MODELS_REL_DIR)
@@ -73,6 +81,26 @@ class StyleTransfer:
             train.train(additional_args=args)
 
     def apply_styles(self, fine_size='512', gpu_ids='0', display_id='0'):
+        '''
+        Directory structure:
+        Input:
+        generated/
+            $CLUS_ID/
+                grayscale/
+                    synthetic masks
+                test/
+                    (for the pix2pix)
+        p2pmodels/
+            $CLUS_ID/
+                pix2pix models
+        
+        Output:
+        p2psynthetic/
+            $CLUS_ID
+                synthetic microscopy images
+
+        '''
+
         result_path = os.path.join(self.work_dir, self.P2P_RESULT_REL_DIR)
         os.makedirs(result_path, exist_ok=True)
         # Iterates through the synthetic masks
@@ -110,8 +138,25 @@ class StyleTransfer:
             test_cus.test(args)
     
     def generate_output(self):
+        '''
+        Input:
+        generated/
+            $CLUS_ID/
+                grayscale/
+                    synthetic masks
+        p2psynthetic/
+            $CLUS_ID/
+                synthetic microscopy images
+        
+        Output:
+        out/
+            images/
+                synthetic microscopy images for all clusters
+            masks/
+                synthetic masks for all clusters
+        '''
         # Where to put the results...
-        output_dir = os.path.join(self.work_dir, self.P2P_FINAl_OUTPUT_REL_DIR)    #$WORK_DIR/out
+        output_dir = os.path.join(self.work_dir, self.P2P_FINAl_OUTPUT_REL_DIR)         #$WORK_DIR/out
         output_dir_images = os.path.join(output_dir, 'images')                          #$WORK_DIR/out/images
         output_dir_masks = os.path.join(output_dir, 'masks')                            #$WORK_DIR/out/masks
         print('mkdir {}'.format(output_dir_images))

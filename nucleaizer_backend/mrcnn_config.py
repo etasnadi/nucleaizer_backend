@@ -40,7 +40,7 @@ class MRCNNConfig(Config):
                 "rpn_bbox_loss": 2.,
                 "mrcnn_class_loss": 2.,
                 "mrcnn_bbox_loss": 1.,
-                "mrcnn_mask_loss": 1.
+                "mrcnn_mask_loss": 1.}
 
 def main():
     conf = MRCNNConfig()

@@ -14,7 +14,7 @@ from ..Mask_RCNN_tf2.mrcnn import utils
 from . import nuclei_config
 from . import nuclei_dataset
 
-class MaskRCNNTrain:
+class MaskRCNNTrain():
 
     def __init__(self, pParams):
         self.__mParams = pParams
@@ -51,11 +51,11 @@ class MaskRCNNTrain:
             image_aug = transformed['image']
             mask_aug = transformed['masks']
             
-            mask_aug = np.stack(mask_aug, -1)
+            mask_aug = numpy.stack(mask_aug, -1)
 
             return image_aug, mask_aug
 
-        return augment_with_albumentations(image, mask, augmentation)
+        return augment_with_albumentations(image, mask, augmentation_pipeline)
 
     @staticmethod
     def process_dataset(imagesDir, masksDir):
@@ -81,6 +81,8 @@ class MaskRCNNTrain:
         outModelPath = p_outModelPath 
         trainDir = p_trainDir 
         evalDir = p_evalDir
+
+        print('Training Mask R-CNN... Train: %s; Val: %s; model: %s; output: %s' % (p_trainDir, p_evalDir, p_inModelPath, p_outModelPath))
 
         # if "input_model" in self.__mParams:
         #     os.path.join(os.curdir, self.__mParams["input_model"])
